@@ -41,7 +41,7 @@ public abstract class Transporte {
         return this.paquetes.stream().mapToInt(Paquete::peso).sum();
     }
 
-    public Double volumenTotalDeLosPaquetes() {
+    protected Double volumenTotalDeLosPaquetes() {
         return this.paquetes.stream().mapToDouble(Paquete::volumen).sum();
     }
 }

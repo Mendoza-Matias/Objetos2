@@ -3,7 +3,7 @@ package com.mmendoza.entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Historial {
+public class Prestamos {
 
     private Usuario usuario; /*usuario que solicito el libro*/
     private ArrayList<Libro> librosSolicitados; /*libros solicitados*/
@@ -12,7 +12,7 @@ public class Historial {
 
     /*inicializo mi lista en el constructor vacio*/
 
-    public Historial(Usuario usuario, Libro libro, LocalDate fecha) {
+    public Prestamos(Usuario usuario, Libro libro, LocalDate fecha) {
         this.usuario = usuario;
         ingresarLibro(libro); /*se llama al metodo que se encarga de ingresar un l*/
         this.fechaPrestamo = fecha;
@@ -22,15 +22,12 @@ public class Historial {
         if (librosSolicitados == null) {
             librosSolicitados = new ArrayList<>();
         }
-        librosSolicitados.add(libro);
+        if (libro != null)
+            librosSolicitados.add(libro);
     }
 
     public Usuario getUsuario() {
         return usuario;
-    }
-
-    public ArrayList<Libro> getLibrosSolicitados() {
-        return librosSolicitados;
     }
 
     public LocalDate getFechaPrestamo() {
@@ -41,29 +38,33 @@ public class Historial {
         return fechaDevolucion;
     }
 
-    protected void modificarEstadoDeLosLibros() {
-        for (Libro libro : librosSolicitados) {
-            libro.estaDisponible();
-        }
-    }
-
-    protected ArrayList<Libro> getLibros() {
+    protected ArrayList<Libro> getLibrosSolicitados() {
         return librosSolicitados;
     }
 
+    /*
+     * inserta la fecha de devolucion del libro
+     * */
     protected void insertarFechaDeDevolucion() {
         fechaDevolucion = LocalDate.now();
     }
 
-    /*imprimir datos del historial*/
-
-    @Override
-    public String toString() {
-        return "Historial "
-                + "[usuario=" + usuario +
-                ", libro=" + librosSolicitados +
-                ", fechaPrestamo=" + fechaPrestamo +
-                ", fechaDevolucion=" + fechaDevolucion + "]";
+    protected Boolean estaElLibroConTitulo(String titulo) {
+        for (Libro libro : getLibrosSolicitados()) {
+            if (libro.getTitulo().equals(titulo)) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    protected Libro obtenerLibroConTitulo(String titulo) {
+        Integer indice = 0;
+        for (int i = 0; i < librosSolicitados.size(); i++) {
+            if (titulo.equals(librosSolicitados.get(i).getTitulo())) {
+                indice = i;
+            }
+        }
+        return librosSolicitados.get(indice);
+    }
 }

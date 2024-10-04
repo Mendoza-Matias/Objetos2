@@ -9,9 +9,6 @@ public class Libro {
     private String isbn;
     private Boolean disponible;
 
-
-    /*constructor para crear un libro*/
-
     public Libro(String titulo, String autor) {
         this.titulo = titulo;
         this.disponible = true;
@@ -19,7 +16,7 @@ public class Libro {
         this.isbn = UUID.randomUUID().toString();
     }
 
-    protected String getTitulo() {
+    public String getTitulo() {
         return titulo;
     }
 
@@ -27,17 +24,14 @@ public class Libro {
         return autor;
     }
 
-    protected void estaDisponible() {
-        disponible = true;
-    }
-
-    protected void modificarANoDisponible() {
-        disponible = false;
-    }
-
-    protected Boolean getDisponible() {
+    public Boolean getDisponible() {
         return disponible;
     }
 
-
+    protected void modificarEstado() {
+        /*
+         * si esta disponible lo cambio a false y sino no esta disponible a true
+         * */
+        disponible = (getDisponible()) ? false : true;
+    }
 }

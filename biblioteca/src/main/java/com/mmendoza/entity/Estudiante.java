@@ -14,8 +14,16 @@ public class Estudiante extends Usuario {
     }
 
     @Override
-    protected void solicitarLibro(ArrayList<String> titulos) {
+    public void solicitarLibro(ArrayList<String> titulos) {
+        /*
+         * se puede solicitar mientras el usuario no haya superado su limite de prestamos
+         * */
         if (!(getLibros().size() >= getLimite()))
             super.solicitarLibro(titulos);
+    }
+
+    @Override
+    public void devolverLibro(String titulo) {
+        super.devolverLibro(titulo);
     }
 }

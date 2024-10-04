@@ -46,43 +46,10 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void estaDisponiblePeterPan() {
-
-        ArrayList<Libro> libros = new ArrayList<>();
-
-        libros.add(new Libro("Peter pan", "Jose"));
-        libros.add(new Libro("Peter pan", "Jose"));
-        libros.add(new Libro("Hasta el ultimo hombre", "Luis"));
-
-        Biblioteca biblioteca = new Biblioteca();
-
-        biblioteca.agregarLibros(libros);
-
-        assertTrue(biblioteca.estaDisponible("Peter pan"));
-    }
-
-    @Test
-    public void estaDisponibleLaSirenita() {
-
-        ArrayList<Libro> libros = new ArrayList<>();
-
-        libros.add(new Libro("Peter pan", "Jose"));
-        libros.add(new Libro("Peter pan", "Jose"));
-        libros.add(new Libro("Hasta el ultimo hombre", "Luis"));
-
-        Biblioteca biblioteca = new Biblioteca();
-
-        biblioteca.agregarLibros(libros);
-
-        assertFalse(biblioteca.estaDisponible("La sirenita"));
-    }
-
-    @Test
     public void prestarLibroAUnEstudiante() {
 
         ArrayList<Libro> libros = new ArrayList<>();
 
-        libros.add(new Libro("Peter pan", "Jose"));
         libros.add(new Libro("Peter pan", "Jose"));
         libros.add(new Libro("Hasta el ultimo hombre", "Luis"));
 
@@ -98,7 +65,7 @@ public class BibliotecaTest {
         estudiante.solicitarLibro(nombresDeLibros);
 
 
-        assertFalse(biblioteca.estaDisponible("Peter pan"));
+        assertFalse(biblioteca.estaDisponibleElLibro("Peter pan"));
     }
 
     @Test
@@ -107,7 +74,6 @@ public class BibliotecaTest {
         ArrayList<Libro> libros = new ArrayList<>();
 
         libros.add(new Libro("Peter pan", "Jose"));
-        libros.add(new Libro("Peter pan", "Jose"));
         libros.add(new Libro("Hasta el ultimo hombre", "Luis"));
 
         Biblioteca biblioteca = new Biblioteca();
@@ -121,9 +87,9 @@ public class BibliotecaTest {
 
         estudiante.solicitarLibro(nombresDeLibros);
 
-        estudiante.devolverLibros();
+        estudiante.devolverLibro("Peter pan");
 
-        assertTrue(biblioteca.estaDisponible("Peter pan"));
+        assertTrue(biblioteca.estaDisponibleElLibro("Peter pan"));
     }
 
     @Test
@@ -144,16 +110,16 @@ public class BibliotecaTest {
 
         estudiante.solicitarLibro(nombresDeLibros);
 
-        ArrayList<Historial> historial = biblioteca.historial();
+        ArrayList<Prestamos> prestamos = biblioteca.getHistorialDePrestamos();
 
         String nombreEstudiante = estudiante.getNombre();
         String tituloLibro = libros.get(0).getTitulo();
         String autor = libros.get(0).getAutor();
 
-        assertEquals(nombreEstudiante, historial.get(0).getUsuario().getNombre());
-        assertEquals(tituloLibro, historial.get(0).getLibros().get(0).getTitulo());
-        assertEquals(autor, historial.get(0).getLibros().get(0).getAutor());
-        assertEquals(LocalDate.now(), historial.get(0).getFechaPrestamo());
-        assertNull(historial.get(0).getFechaDevolucion());
+        assertEquals(nombreEstudiante, prestamos.get(0).getUsuario().getNombre());
+        assertEquals(tituloLibro, prestamos.get(0).getLibrosSolicitados().get(0).getTitulo());
+        assertEquals(autor, prestamos.get(0).getLibrosSolicitados().get(0).getAutor());
+        assertEquals(LocalDate.now(), prestamos.get(0).getFechaPrestamo());
+        assertNull(prestamos.get(0).getFechaDevolucion());
     }
 }

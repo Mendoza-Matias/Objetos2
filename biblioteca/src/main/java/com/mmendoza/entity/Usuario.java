@@ -24,32 +24,42 @@ public abstract class Usuario {
         return nombre;
     }
 
-    public Biblioteca getBiblioteca() {
-        return biblioteca;
-    }
-
-    protected abstract Integer getLimite();
-
+    /*
+     * libros del usuario
+     * */
     protected ArrayList<Libro> getLibros() {
         return libros;
     }
 
-    protected void solicitarLibro(ArrayList<String> titulos) {
+    /*condiciones de limite el cual tiene cada usuario*/
+    protected abstract Integer getLimite();
 
+    /*
+     * solicito los libros mediante su nombre
+     * */
+    protected void solicitarLibro(ArrayList<String> titulos) {
         for (String titulo : titulos) {
-            //llama al metodo de la biblioteca que registra el historial y en este guardo el usuario y el libro
-            biblioteca.registrarHistorial(this, titulo);
+            /*
+             * le paso el titulo del libro y al usuario para que este se almacene en el historial del prestamo
+             * */
+            biblioteca.registrarPrestamo(this, titulo);
         }
 
         libros.addAll(biblioteca.librosSolicitados(this));
     }
 
-    protected void devolverLibros() {
-
-        biblioteca.devolverLibros(this);
-
+    protected void devolverLibro(String titulo) {
+        /*
+         * veo la lista de libros que tiene mi usuario y si este se encuentra realiza la devolución
+         * */
         for (int i = 0; i < libros.size(); i++) {
-            libros.remove(i);
+            if (libros.get(i).getTitulo().equals(titulo)) {
+                biblioteca.devolverLibros(libros.get(i).getTitulo());
+                libros.remove(i);
+            }
         }
     }
+
 }
+
+
